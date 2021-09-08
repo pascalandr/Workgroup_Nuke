@@ -1,0 +1,33 @@
+#! /sw/packages/external/nuke/11.3.5.release.m0/platform-linux/arch-x86_64/ext/libnuke-11.3.5.so -nx 
+version 11.3 v5
+Gizmo {
+ tile_color 0xff7f32ff
+ addUserKnob {20 Blur}
+ addUserKnob {3 no_nodes l "No. of nodes"}
+ no_nodes 5
+ addUserKnob {3 amount l "Base value"}
+ amount 2
+ addUserKnob {26 ""}
+ addUserKnob {22 create_nodes l Magic! T "nuke.root().begin()\ns=nuke.selectedNode()\nnumberofnodes=int(s.knob('no_nodes').getValue())\nbasevalue=int(s.knob('amount').getValue())\nprint numberofnodes\nprint basevalue\n\n\ndot=nuke.nodes.Dot()\n\nfor i in range (numberofnodes):\n    nuke.nodes.Blur(size=basevalue, inputs=\[dot])\n    basevalue= basevalue+basevalue" +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {26 c l "" +STARTLINE T "Change channels of the selected blur nodes.\n\n"}
+ addUserKnob {22 all T "nuke.root().begin()\n\nfor i in nuke.selectedNodes('Blur'):\n    i.knob('channels').setValue('all')" +STARTLINE}
+ addUserKnob {22 rgb -STARTLINE T "nuke.root().begin()\n\nfor i in nuke.selectedNodes('Blur'):\n    i.knob('channels').setValue('rgb')"}
+ addUserKnob {22 rgba -STARTLINE T "nuke.root().begin()\n\nfor i in nuke.selectedNodes('Blur'):\n    i.knob('channels').setValue('rgba')"}
+ addUserKnob {22 alpha -STARTLINE T "nuke.root().begin()\n\nfor i in nuke.selectedNodes('Blur'):\n    i.knob('channels').setValue('alpha')"}
+ addUserKnob {20 How_to l "How to use - " t "\n "}
+ addUserKnob {26 Howto l "" +STARTLINE T "Easiest gizmo ever.\n\n1) Selecting blurception node.\n2) No. of nodes should be self explanotory.\n3) Base value is the minimum value of multiple you want to create. \n4) Done hit Magic!\n5) To change channels of created blur nodes you need to select the blur node create and select\nthe channel you want.\n\nPython code for this tool can be found on my website.\n"}
+ addUserKnob {26 ""}
+ addUserKnob {26 end l "" +STARTLINE T "Created by Tejas kantharia\nwww.tjvfx.com\n"}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 0
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 300
+ }
+end_group

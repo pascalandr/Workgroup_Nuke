@@ -1,0 +1,126 @@
+#! C:/Program Files/Nuke11.3v1/nuke-11.3.1.dll -nx
+version 11.3 v1
+define_window_layout_xml {<?xml version="1.0" encoding="UTF-8"?>
+<layout version="1.0">
+    <window x="328" y="188" w="1916" h="1126" screen="0">
+        <splitter orientation="1">
+            <split size="40"/>
+            <dock id="" hideTitles="1" activePageId="Toolbar.1">
+                <page id="Toolbar.1"/>
+            </dock>
+            <split size="1253" stretch="1"/>
+            <splitter orientation="2">
+                <split size="337"/>
+                <dock id="" activePageId="Viewer.1">
+                    <page id="Viewer.1"/>
+                </dock>
+                <split size="741"/>
+                <dock id="" activePageId="DAG.1" focus="true">
+                    <page id="DAG.1"/>
+                    <page id="Curve Editor.1"/>
+                    <page id="DopeSheet.1"/>
+                </dock>
+            </splitter>
+            <split size="615"/>
+            <dock id="" activePageId="Properties.1">
+                <page id="Properties.1"/>
+                <page id="uk.co.thefoundry.backgroundrenderview.1"/>
+            </dock>
+        </splitter>
+    </window>
+</layout>
+}
+Root {
+ inputs 0
+ name X:/Workgroup_Nuke/ToolSets/rgb_alpha.nk
+ format "2048 1556 0 0 2048 1556 1 2K_Super_35(full-ap)"
+ proxy_type scale
+ proxy_format "1024 778 0 0 1024 778 1 1K_Super_35(full-ap)"
+ colorManagement Nuke
+ workingSpaceLUT linear
+ monitorLut sRGB
+ int8Lut sRGB
+ int16Lut sRGB
+ logLut Cineon
+ floatLut linear
+}
+Viewer {
+ inputs 0
+ frame 1
+ frame_range 1-100
+ input_process false
+ name Viewer1
+ xpos -40
+ ypos -9
+}
+StickyNote {
+ inputs 0
+ name StickyNote1
+ label rgb
+ xpos 510
+ ypos -569
+}
+StickyNote {
+ inputs 0
+ name StickyNote2
+ label "rgb alpha"
+ xpos 486
+ ypos -387
+}
+StickyNote {
+ inputs 0
+ name StickyNote3
+ label background
+ xpos 1042
+ ypos -713
+}
+Dot {
+ inputs 0
+ name Dot4
+ xpos 595
+ ypos -337
+}
+Dot {
+ inputs 0
+ name Dot1
+ xpos 603
+ ypos -497
+}
+Dot {
+ name Dot5
+ xpos 815
+ ypos -497
+}
+add_layer {colorAlpha colorAlpha.r colorAlpha.g colorAlpha.b}
+Copy {
+ inputs 2
+ from0 rgba.red
+ to0 colorAlpha.r
+ from1 rgba.green
+ to1 colorAlpha.g
+ from2 rgba.blue
+ to2 colorAlpha.b
+ from3 -rgba.alpha
+ to3 rgba.alpha
+ name Copy2
+ xpos 796
+ ypos -380
+}
+Dot {
+ inputs 0
+ name Dot7
+ selected true
+ xpos 1113
+ ypos -634
+}
+MergeExpression {
+ inputs 2
+ expr0 Ar+Br*(1-A.colorAlpha.r)
+ expr1 Ag+Bg*(1-A.colorAlpha.g)
+ expr2 Ab+Bb*(1-A.colorAlpha.b)
+ channel3 {none none none -rgba.alpha}
+ invert_mask true
+ name MergeRgb
+ xpos 1079
+ ypos -362
+}

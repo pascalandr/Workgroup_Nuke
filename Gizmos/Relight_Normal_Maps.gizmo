@@ -1,0 +1,103 @@
+#! C:/Program Files/Nuke11.3v1/nuke-11.3.1.dll -nx
+version 11.3 v1
+Gizmo {
+ inputs 2
+ addUserKnob {20 User}
+ addUserKnob {41 in l "in 1" T Shuffle3.in}
+ addUserKnob {41 Longitude T Constant3.Longitude}
+ addUserKnob {41 Lattitude T Constant3.Lattitude}
+ addUserKnob {41 multiply l "Color of Light" T Grade1.multiply}
+}
+ Input {
+  inputs 0
+  name NormalPass
+  xpos -900
+  ypos -421
+ }
+ Shuffle {
+  in none
+  name Shuffle3
+  xpos -900
+  ypos -347
+ }
+ Constant {
+  inputs 0
+  channels rgb
+  color {{"cos(radians(Lattitude))* cos(radians(Longitude))"} {sin(radians(Lattitude))} {"cos(radians(Lattitude))* sin(radians(Longitude))"} 1}
+  name Constant3
+  xpos -683
+  ypos -302
+  addUserKnob {20 User}
+  addUserKnob {7 Longitude R 0 360}
+  Longitude 180
+  addUserKnob {7 Lattitude R -90 90}
+  Lattitude 30
+  addUserKnob {41 color_1 l color T Constant3.color}
+ }
+ Crop {
+  box {{curve} {curve} {NormalPass.width} {NormalPass.height}}
+  reformat true
+  crop false
+  name Crop1
+  xpos -783
+  ypos -279
+ }
+ Difference {
+  inputs 2
+  name Difference1
+  xpos -900
+  ypos -285
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  alpha black
+  name Shuffle4
+  xpos -900
+  ypos -229
+ }
+ Invert {
+  name Invert1
+  xpos -900
+  ypos -178
+ }
+push 0
+ Merge2 {
+  inputs 2
+  name Merge7
+  xpos -938
+  ypos -103
+ }
+set N18f6a400 [stack 0]
+push $N18f6a400
+ ShuffleCopy {
+  inputs 2
+  out2 alpha
+  name ShuffleCopy1
+  xpos -938
+  ypos -56
+ }
+ Grade {
+  whitepoint 1.48
+  name Grade1
+  xpos -938
+  ypos -17
+ }
+set N18f9bc00 [stack 0]
+ Viewer {
+  frame 152
+  frame_range 0-280
+  fps 25
+  name Viewer1
+  xpos -779
+  ypos 159
+ }
+push $N18f9bc00
+ Output {
+  name Output1
+  selected true
+  xpos -1036
+  ypos 171
+ }
+end_group
